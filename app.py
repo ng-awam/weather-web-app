@@ -4,33 +4,23 @@
 # In[21]:
 
 
-import numpy as np
 import pandas as pd
 import datetime
-from plotly import graph_objs as go
 from plotly.subplots import make_subplots
 
 import plotly.express as px  # (version 4.7.0)
-import plotly.graph_objects as go
 
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-
+import dash_table as dt
 
 # In[22]:
 
 
-# Standard plotly imports
-# import plotly.plotly as py
-import chart_studio.plotly as py
 import plotly.graph_objs as go
-from plotly.offline import iplot, init_notebook_mode
-# Using plotly + cufflinks in offline mode
-import cufflinks
-cufflinks.go_offline(connected=True)
-init_notebook_mode(connected=True)
+
 
 
 # In[23]:
@@ -49,20 +39,12 @@ end_date = datetime.datetime.today().strftime('%Y-%m-%d')
 
 # In[16]:
 
-
-weather_state_scaled_precip1 = pd.read_csv('precip.csv',index_col=0)
+weather_state_scaled_precip1 = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/precip.csv',index_col=0)
 weather_state_scaled_precip1.index = pd.to_datetime(weather_state_scaled_precip1.index)
 weather_state_scaled_precip1 = weather_state_scaled_precip1.rename(columns = {'Date.1' : 'Date'})
 weather_state_scaled_precip1.index.name = None
 
 
-# In[17]:
-
-
-weather_state_scaled_precip1
-
-
-# In[ ]:
 
 
 
@@ -109,19 +91,13 @@ fig_precip.update_layout(legend=dict(
 # In[25]:
 
 
-weather_state_scaled_ws1 = pd.read_csv('ws.csv',index_col=0)
+weather_state_scaled_ws1 = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/ws.csv',index_col=0)
 weather_state_scaled_ws1.index = pd.to_datetime(weather_state_scaled_ws1.index)
 weather_state_scaled_ws1 = weather_state_scaled_ws1.rename(columns = {'Date.1' : 'Date'})
 weather_state_scaled_ws1.index.name = None
 
 
-# In[26]:
 
-
-weather_state_scaled_ws1
-
-
-# In[ ]:
 
 
 
@@ -145,7 +121,7 @@ for i in range(len(regions)):
     temp = weather_state_scaled_ws_region[weather_state_scaled_ws_region['Region'] == regions[i]]
 
     temp1 = temp.rolling(7).mean().dropna(subset=['ws_norm'])
-    fig_ws.add_trace(go.Scatter(x=temp1.index, y= temp1['ws_norm'],name=regions[i]),row=1,col=1) 
+    fig_ws.add_trace(go.Scatter(x=temp1.index, y= temp1['ws_norm'],name=regions[i]),row=1,col=1)
 
 fig_ws.add_vline(x=end_date, line_width=3, line_dash="dash", line_color="black")
 fig_ws.update_layout(height=600,width=900,
@@ -162,12 +138,12 @@ fig_ws.update_layout(legend=dict(
 # In[29]:
 
 
-weather_state_scaled_temp1 = pd.read_csv('temp.csv',index_col=0)
+weather_state_scaled_temp1 = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/temp.csv',index_col=0)
 weather_state_scaled_temp1.index = pd.to_datetime(weather_state_scaled_temp1.index)
 weather_state_scaled_temp1 = weather_state_scaled_temp1.rename(columns = {'Date.1' : 'Date'})
 weather_state_scaled_temp1.index.name = None
 
-weather_state_scaled_temp1
+
 
 
 # In[ ]:
@@ -194,7 +170,7 @@ for i in range(len(regions)):
     temp = weather_state_scaled_temp_region[weather_state_scaled_temp_region['Region'] == regions[i]]
 
     temp1 = temp.rolling(7).mean().dropna(subset=['temp_norm'])
-    fig_temp.add_trace(go.Scatter(x=temp1.index, y= temp1['temp_norm'],name=regions[i]),row=1,col=1) 
+    fig_temp.add_trace(go.Scatter(x=temp1.index, y= temp1['temp_norm'],name=regions[i]),row=1,col=1)
 fig_temp.add_vline(x=end_date, line_width=3, line_dash="dash", line_color="black")
 fig_temp.update_layout(height=600,width=900,
     title='7 day average of Normalized Temperature (degree C) - US Regions ')
@@ -212,16 +188,9 @@ fig_temp.update_layout(legend=dict(
 # In[34]:
 
 
-weather_state_forecast_scaled_precip = pd.read_csv('precip_forecast.csv',index_col=0)
+weather_state_forecast_scaled_precip = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/precip_forecast.csv',index_col=0)
 
 
-# In[35]:
-
-
-weather_state_forecast_scaled_precip
-
-
-# In[37]:
 
 
 df_map_precip = weather_state_forecast_scaled_precip.copy()
@@ -245,35 +214,14 @@ fig_map1 = px.choropleth(
 )
 
 
-# fig = go.Figure(data=go.Scattergeo(
-#         locationmode = 'USA-states',
-#         lon = tyson['LON'],
-#         lat = tyson['LAT'],
-#         text = tyson['Location Name'],
-#         mode = 'markers',
-#         marker = dict(
-#             size = 8,
-#             opacity = 1,
-#             reversescale = True,
-#             autocolorscale = False,
-#             symbol = 'square',
-#             line = dict(
-#                 width=1,
-#                 color='rgba(102, 102, 102)'
-#             )
-#         )))
 
-# fig_map1.add_trace(
-#     fig.data[0]
-# )
 
-fig_map1.show()
 
 
 # In[39]:
 
 
-weather_state_forecast_scaled_ws = pd.read_csv('ws_forecast.csv',index_col=0)
+weather_state_forecast_scaled_ws = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/ws_forecast.csv',index_col=0)
 
 df_map_ws = weather_state_forecast_scaled_ws.copy()
 df_map_ws.ws_norm=df_map_ws.ws_norm.mask(df_map_ws.ws_norm.lt(0),0)
@@ -302,35 +250,15 @@ fig_map2 = px.choropleth(
 )
 
 
-# fig = go.Figure(data=go.Scattergeo(
-#         locationmode = 'USA-states',
-#         lon = tyson['LON'],
-#         lat = tyson['LAT'],
-#         text = tyson['Location Name'],
-#         mode = 'markers',
-#         marker = dict(
-#             size = 8,
-#             opacity = 1,
-#             reversescale = True,
-#             autocolorscale = False,
-#             symbol = 'square',
-#             line = dict(
-#                 width=1,
-#                 color='rgba(102, 102, 102)'
-#             )
-#         )))
 
-# fig_map2.add_trace(
-#     fig.data[0]
-# )
 
-fig_map2.show()
+
 
 
 # In[41]:
 
 
-weather_state_forecast_scaled_temp = pd.read_csv('temp_forecast.csv',index_col=0)
+weather_state_forecast_scaled_temp = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/temp_forecast.csv',index_col=0)
 
 df_map_temp = weather_state_forecast_scaled_temp.copy()
 df_map_temp.temp_norm=df_map_temp.temp_norm.mask(df_map_temp.temp_norm.lt(0),0)
@@ -352,34 +280,9 @@ fig_map3 = px.choropleth(
     animation_frame = "forecast_day"
 )
 
+alerts = pd.read_csv('weather-web-app/alerts.csv',index_col=0)
 
-# fig = go.Figure(data=go.Scattergeo(
-#         locationmode = 'USA-states',
-#         lon = tyson['LON'],
-#         lat = tyson['LAT'],
-#         text = tyson['Location Name'],
-#         mode = 'markers',
-#         marker = dict(
-#             size = 8,
-#             opacity = 1,
-#             reversescale = True,
-#             autocolorscale = False,
-#             color= 'green',
-#             symbol = 'square',
-#             line = dict(
-#                 width=1,
-#                 color='green'
-#             )
-#         )))
-
-# fig_map3.add_trace(
-#     fig.data[0]
-# )
-
-fig_map3.show()
-
-
-# In[43]:
+alerts['State'] = 'US_' + alerts['State']
 
 
 states_dd = [{"label" : "Alabama", "value" : "US_AL"},
@@ -442,7 +345,45 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div([
     html.H1("Weather data dashboard", style={'text-align': 'center'}),
-    dcc.Tabs([
+    
+    
+    dcc.Tabs([dcc.Tab(label='Alerts', children=[     
+        html.Br(),
+        dcc.Dropdown(id="slct_state_alerts",
+                 options=states_dd,
+                 multi=False,
+                 value='US_AK',
+                 style={'width': "40%"},
+                 searchable=True
+                 ),
+        html.Br() ,                                       
+        dt.DataTable(id='alert_table', 
+                     columns=[{'id': c, 'name': c} for c in alerts.columns.values],
+                    style_cell_conditional=[
+                                            {
+                                                'if': {'column_id': c},
+                                                'textAlign': 'left'
+                                            } for c in ['Date', 'Region']
+                                        ],
+                                        style_data={
+                                            'color': 'black',
+                                            'backgroundColor': 'white',
+                                            'whiteSpace': 'normal',
+                                            'height': 'auto'
+                                        },
+                                        style_data_conditional=[
+                                            {
+                                                'if': {'row_index': 'odd'},
+                                                'backgroundColor': 'rgb(220, 220, 220)',
+                                            }
+                                        ],
+                                        style_header={
+                                            'backgroundColor': 'rgb(210, 210, 210)',
+                                            'color': 'black',
+                                            'fontWeight': 'bold'
+                                        }),
+        html.Br()                                         
+]),
         dcc.Tab(label='Precipitation', children=[dcc.Graph(id="precip_region",figure=fig_precip  , 
                                                            style={'display': 'inline-block'}),
         dcc.Graph(id="precip_forecast",figure=fig_map1, style={'display': 'inline-block'}),
@@ -497,6 +438,13 @@ app.layout = html.Div([
         
 ])
 ])
+
+@app.callback(
+    Output('alert_table', 'data'),
+    [Input('slct_state_alerts', 'value') ] )
+def display_table(state):
+    dff = alerts[alerts.State==state]
+    return dff.to_dict('records')
 
 @app.callback(Output(component_id='my_state_graph1', component_property='figure'),
     [Input(component_id='slct_state1', component_property='value')])
@@ -576,46 +524,5 @@ def update_graph(option_slctd1):
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run_server(debug=False)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
 
 
