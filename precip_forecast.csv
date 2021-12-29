@@ -1,5 +1,5 @@
 ,precip_norm,Location,forecast_day,latitude,longitude,name,State
-0,-3.032333333,US_AL,0,100000,-86.902298,Alabama,AL
+0,-3.032333333,US_AL,0,32.318231,-86.902298,Alabama,AL
 1,1.695,US_AL,1,32.318231,-86.902298,Alabama,AL
 2,13.39833333,US_AL,2,32.318231,-86.902298,Alabama,AL
 3,2.206666667,US_AL,3,32.318231,-86.902298,Alabama,AL
