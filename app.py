@@ -280,7 +280,7 @@ fig_map3 = px.choropleth(
     animation_frame = "forecast_day"
 )
 
-alerts = pd.read_csv('weather-web-app/alerts.csv',index_col=0)
+alerts = pd.read_csv('https://raw.githubusercontent.com/ng-awam/weather-web-app/main/alerts.csv',index_col=0)
 
 alerts['State'] = 'US_' + alerts['State']
 
